@@ -81,7 +81,7 @@ if ! is_created "contrail-dev-env-rpm-repo"; then
   docker run --privileged --name contrail-dev-env-rpm-repo \
     -d -p 6667:80 \
     -v ${rpm_source}:/var/www/localhost/htdocs \
-    sebp/lighttpd >/dev/null
+    lighttpd-local >/dev/null
   echo contrail-dev-env-rpm-repo created.
 else
   if is_up "contrail-dev-env-rpm-repo"; then
