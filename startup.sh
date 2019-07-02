@@ -62,6 +62,8 @@ if [ x"$distro" == x"centos" ]; then
   systemctl restart docker
 elif [ x"$distro" == x"ubuntu" ]; then
   which docker || apt install -y docker.io
+  kernel_release=$(uname -r)
+  dpkg -l | grep '^i.*linux-headers-'${kernel_release} || apt install -y kernel-headers-${kernel_release}
 fi
 
 test "$setup_only" -eq 1 && exit
@@ -104,6 +106,7 @@ else
   fi
 fi
 
+
 if [[ "$own_vm" -eq 0 ]]; then
   if ! is_created "contrail-developer-sandbox"; then
     if [[ x"$DEVENVTAG" == x"latest" ]]; then
@@ -112,6 +115,8 @@ if [[ "$own_vm" -eq 0 ]]; then
     docker run --privileged --name contrail-developer-sandbox \
       -w /root -itd \
       -v /var/run/docker.sock:/var/run/docker.sock \
+      -v /usr/src/linux-headers-${kernel_release}:/root/kernel/linux-headers-${kernel_release} \
+      -v /usr/src/linux-headers-${kernel_release%-*}:/root/kernel/linux-headers-${kernel_release%-*} \
       -v ${rpm_source}:/root/contrail/RPMS \
       -v $(pwd):/root/contrail-dev-env \
       ${IMAGE}:${DEVENVTAG} >/dev/null
