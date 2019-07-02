@@ -3,7 +3,7 @@ FROM centos:7.5.1804
 ENV USER root
 ENV HOME /root/
 ENV CONTRAIL $HOME/contrail
-ARG BRANCH=master
+ARG BRANCH=R5.1
 
 RUN mkdir -p $CONTRAIL
 WORKDIR $CONTRAIL
@@ -40,7 +40,7 @@ RUN yum -y install epel-release \
 # Initialize sandbox, get code, install build dependencies
 # and fetch third parties
 RUN echo "Initializing repo from $BRANCH" \
-&&  repo init --no-clone-bundle -q -u https://github.com/Juniper/contrail-vnc -b $BRANCH \
+&&  repo init --no-clone-bundle -q -u https://github.com/mrasskazov/contrail-vnc -b $BRANCH \
 &&  repo sync --no-clone-bundle -q contrail-packages contrail-third-party \
 &&  make -f tools/packages/Makefile dep \
 &&  ./third_party/fetch_packages.py \

@@ -1,5 +1,5 @@
 #!/bin/bash
-BRANCH=master
+BRANCH=R5.1
 IMAGE=opencontrail/developer-sandbox
 
 while getopts ":b:i:" opt; do
