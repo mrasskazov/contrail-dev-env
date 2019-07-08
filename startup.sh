@@ -62,7 +62,7 @@ if [ x"$distro" == x"centos" ]; then
   systemctl restart docker
 elif [ x"$distro" == x"ubuntu" ]; then
   which docker || apt install -y docker.io
-  kernel_release=$(uname -r)
+  kernel_release=${kernel_release:-$(uname -r)}
   dpkg -l | grep '^i.*linux-headers-'${kernel_release} || apt install -y kernel-headers-${kernel_release}
 fi
 
