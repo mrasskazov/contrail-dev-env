@@ -14,13 +14,16 @@ IMAGE=opencontrailnightly/developer-sandbox
 REGISTRY_PORT=${REGISTRY_PORT:-6666}
 REGISTRY_IP=${REGISTRY_IP:-}
 
-while getopts ":t:i:sb" opt; do
+while getopts ":t:i:k:sb" opt; do
   case $opt in
     i)
       IMAGE=$OPTARG
       ;;
     t)
       DEVENVTAG=$OPTARG
+      ;;
+    k)
+      kernel_release=$OPTARG
       ;;
     s)
       setup_only=1
