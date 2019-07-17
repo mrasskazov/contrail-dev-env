@@ -115,11 +115,13 @@ if [[ "$own_vm" -eq 0 ]]; then
     if [[ x"$DEVENVTAG" == x"latest" ]]; then
       docker pull ${IMAGE}:${DEVENVTAG}
     fi
+    # TODO: mount all the installed kernels from host system
     docker run --privileged --name contrail-developer-sandbox \
       -w /root -itd \
       -v /var/run/docker.sock:/var/run/docker.sock \
-      -v /usr/src/linux-headers-${kernel_release}:/root/kernel/linux-headers-${kernel_release} \
-      -v /usr/src/linux-headers-${kernel_release%-*}:/root/kernel/linux-headers-${kernel_release%-*} \
+      -v /usr/src/linux-headers-${kernel_release}:/usr/src/linux-headers-${kernel_release} \
+      -v /usr/src/linux-headers-${kernel_release%-*}:/usr/src/linux-headers-${kernel_release%-*} \
+      -v /lib/modules/${kernel_release}:/lib/modules/${kernel_release} \
       -v ${rpm_source}:/root/contrail/RPMS \
       -v $(pwd):/root/contrail-dev-env \
       ${IMAGE}:${DEVENVTAG} >/dev/null
